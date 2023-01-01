@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: "일상 보조임",
+      title: "일상 보조",
       debugShowCheckedModeBanner: false,
       home: MyPage(),
     );
