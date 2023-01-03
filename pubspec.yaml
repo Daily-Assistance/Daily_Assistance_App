@@ -43,7 +43,9 @@ dependencies:
   shared_preferences: ^2.0.15
   permission_handler: ^10.2.0
   table_calendar: ^3.0.8
-  intl: ^0.18.0
+  intl: ^0.17.0
+  json_annotation: ^4.7.0
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:
