@@ -1,9 +1,40 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:daily_assistance/model/alarm.dart';
+import 'package:daily_assistance/provider/alarm/alarm_list_provider.dart';
+import 'package:daily_assistance/provider/alarm/permission_provider.dart';
+import 'package:daily_assistance/screens/alarm/alarm_observer.dart';
+import 'package:daily_assistance/screens/alarm/permission_request_screen.dart';
+import 'package:daily_assistance/service/alarm/alarm_file_handler.dart';
+import 'package:daily_assistance/service/alarm/alarm_polling_worker.dart';
+import 'package:daily_assistance/provider/alarm/alarm_state.dart';
+import 'package:daily_assistance/screens/alarm/alarmTestPage.dart';
 import 'package:daily_assistance/screens/calender.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:provider/provider.dart';
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  initializeDateFormatting().then((value) => runApp(const MyApp()));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await AndroidAlarmManager.initialize();
+
+  final AlarmState alarmState = AlarmState();
+  final List<Alarm> alarms = await AlarmFileHandler().read() ?? [];
+  final SharedPreferences preference = await SharedPreferences.getInstance();
+
+  // 앱 진입시 알림 탐색 시작
+  AlarmPollingWorker().createPollingWorker(alarmState);
+
+  initializeDateFormatting().then((value) => runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => alarmState),
+      ChangeNotifierProvider(create: (context) => AlarmListProvider(alarms)),
+      ChangeNotifierProvider(create: (context) => PermissionProvider(preference))
+    ],
+    child: const MyApp()
+  )));
 }
 
 class MyApp extends StatelessWidget {
@@ -52,7 +83,11 @@ class _MyPageState extends State<MyPage> {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  //알림 받는 함수
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const PermissionRequestScreen(
+                          child: AlarmObserver(child: AlarmTestPage())
+                      ))
+                  );
                 },
                 child: const Text("알림 받기")),
             ElevatedButton(
