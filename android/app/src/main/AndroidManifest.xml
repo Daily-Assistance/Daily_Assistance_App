@@ -5,7 +5,12 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <!-- For apps with targetSDK=31 (Android 12) -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
+<<<<<<< HEAD
     
+=======
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+>>>>>>> 528a46c2520c0deafefa1915e86f54629d790f44
    <application
         android:label="daily_assistance"
         android:name="${applicationName}"

@@ -44,7 +44,12 @@ dependencies:
   permission_handler: ^10.2.0
   table_calendar: ^3.0.8
   intl: ^0.17.0
+<<<<<<< HEAD
   flutter_local_notifications: ^9.0.1
+=======
+  json_annotation: ^4.7.0
+  path_provider: ^2.0.11
+>>>>>>> 528a46c2520c0deafefa1915e86f54629d790f44
 
 dev_dependencies:
   flutter_test:
